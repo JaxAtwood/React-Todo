@@ -10,9 +10,11 @@
 // Add the ability to remove any todos that you have completed. .filter will be your best friend here. When a user clicks on the Clear Completed button call your handler function that will filter out any todos that have the completed flag toggled to true.
 
 
-import React from "react";
+import React, { Component } from "react";
+import Icon from "@material-ui/core/Icon";
+// import React from "react";
 
-class TodoForm extends React.Component {
+class TodoForm extends Component {
     constructor() {
         super();
         this.state = {
@@ -20,16 +22,35 @@ class TodoForm extends React.Component {
         };
     }
 
+    handleChanges = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
+    submitList = e => {
+        e.preventDefault();
+        this.props.addList(this.state.item);
+    };
+
+    removeList = e => {
+        e.preventDefault();
+        this.props.clearSelected(this.state.item);
+    };
+
     render() {
         return (
-            <form>
+            <form onSubmit={this.submitList}>
                 <input 
                     type="text"
-                    //value (this.item) 
+                    value={this.item}
                     name="item"
-                    //onchange (this.handlechange)
+                    onChange={this.handleChanges}
                 />
-                <button>Yo Imma button</button>
+                <button> <img src={"./AddIcon.png"} />
+                        Add to List
+                </button>
+
             </form>
         );
     }
